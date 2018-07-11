@@ -11,7 +11,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        login_button.setOnClickListener { LoginDialog.newInstance() }
+        login_button.setOnClickListener { showLoginDialog() }
+
+    }
+
+    private fun showLoginDialog() {
+
+        LoginDialog.newInstance().show(supportFragmentManager, LoginDialog::class.java.simpleName)
 
     }
 }
