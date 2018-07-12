@@ -24,6 +24,8 @@ class LoginDialog : DialogFragment() {
         fun newInstance(): LoginDialog = LoginDialog()
     }
 
+    lateinit var loginAction: LoginAction
+
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.login_dialog, container, false)
@@ -45,14 +47,15 @@ class LoginDialog : DialogFragment() {
 
                 val substring = url?.substringAfter("access_token=", "")
 
-                if (substring != null) {
+                if (substring != null && substring.isNotEmpty()) {
                     Log.d("LoginDialog finished: ", substring)
+                    loginAction.loginTokenReceived(substring)
                     closeDialog()
                 }
             }
         }
 
-        login_web_view.settings.javaScriptEnabled = true
+        view.login_web_view.settings.javaScriptEnabled = true
 
         view.login_web_view.loadUrl(signInInsta().toString())
 
