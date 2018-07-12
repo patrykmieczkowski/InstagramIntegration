@@ -17,12 +17,10 @@ class MainActivity : AppCompatActivity(), LoginDialog.LoginAction {
 
     private fun showLoginDialog() {
 
-        var loginDialog = LoginDialog.newInstance()
+        val loginDialog = LoginDialog.newInstance()
 
         loginDialog.show(supportFragmentManager, LoginDialog::class.java.simpleName)
         loginDialog.loginAction = this
-//        val intent = Intent(this, LoginActivity::class.java)
-//        startActivity(intent)
     }
 
     override fun loginTokenReceived(token: String) {

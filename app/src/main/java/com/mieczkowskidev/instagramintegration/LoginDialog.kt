@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import kotlinx.android.synthetic.main.login_dialog.*
@@ -29,6 +30,8 @@ class LoginDialog : DialogFragment() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.login_dialog, container, false)
+
+        dialog.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
         view.login_web_view.webViewClient = object : WebViewClient() {
 
@@ -64,7 +67,7 @@ class LoginDialog : DialogFragment() {
 
     private fun signInInsta(): Uri {
 
-        var uriBuilder = Uri.Builder()
+        val uriBuilder = Uri.Builder()
 
         uriBuilder.scheme("https")
                 .authority("api.instagram.com")
@@ -73,6 +76,7 @@ class LoginDialog : DialogFragment() {
                 .appendQueryParameter("client_id", Config.clientId)
                 .appendQueryParameter("redirect_uri", Config.redirectUri)
                 .appendQueryParameter("response_type", "token")
+                .build()
 
         return uriBuilder.build()
     }

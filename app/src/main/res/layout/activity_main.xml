@@ -10,12 +10,12 @@
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LoginMe"/>
+        android:text="@string/login"/>
 
     <TextView
         android:id="@+id/main_text"
-        android:visibility="gone"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
 </android.support.constraint.ConstraintLayout>
