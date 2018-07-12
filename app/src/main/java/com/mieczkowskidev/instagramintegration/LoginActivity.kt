@@ -1,34 +1,22 @@
 package com.mieczkowskidev.instagramintegration
 
-import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import kotlinx.android.synthetic.main.login_dialog.*
-import kotlinx.android.synthetic.main.login_dialog.view.*
 
-/**
- * Created by Patryk Mieczkowski on 11.07.2018
- */
-class LoginDialog : DialogFragment() {
+class LoginActivity : AppCompatActivity() {
 
-    companion object {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.login_dialog)
 
-        fun newInstance(): LoginDialog = LoginDialog()
-    }
+        login_web_view.webViewClient = object : WebViewClient() {
 
-    @SuppressLint("SetJavaScriptEnabled")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.login_dialog, container, false)
-
-        view.login_web_view.webViewClient = object : WebViewClient() {
 
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
@@ -39,27 +27,22 @@ class LoginDialog : DialogFragment() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
 
-                hideProgressBar()
-
                 Log.d("LoginDialog finished", url)
 
                 val substring = url?.substringAfter("access_token=", "")
 
-                if (substring != null) {
-                    Log.d("LoginDialog finished: ", substring)
-                    closeDialog()
-                }
+                Log.d("LoginDialog finished: ", substring)
+
+
             }
         }
 
         login_web_view.settings.javaScriptEnabled = true
 
-        view.login_web_view.loadUrl(signInInsta().toString())
-
-        return view
+        login_web_view.loadUrl(signInInsta().toString())
     }
 
-    private fun signInInsta(): Uri {
+    fun signInInsta(): Uri {
 
         var uriBuilder = Uri.Builder()
 
@@ -74,16 +57,4 @@ class LoginDialog : DialogFragment() {
         return uriBuilder.build()
     }
 
-    private fun hideProgressBar() {
-        login_progress_bar.visibility = View.GONE
-    }
-
-    private fun closeDialog() {
-        dialog.dismiss()
-    }
-
-    interface LoginAction {
-
-        fun loginTokenReceived(token: String)
-    }
 }
